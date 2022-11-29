@@ -1,0 +1,67 @@
+---
+##########################
+# testbed specific parameters
+
+testbed_mtu: 1400
+testbed_mtu_manager: "{{ testbed_mtu }}"
+testbed_mtu_node: "{{ testbed_mtu }}"
+
+##########################
+# docker
+
+docker_version: "5:20.10.17"
+docker_user: "{{ operator_user }}"
+
+##########################
+# operator
+
+operator_user: dragon
+operator_authorized_keys:
+  - "{{lookup('file', '/ansible/secrets/id_rsa.operator.pub')}}"
+
+##########################
+# resolvconf
+
+resolvconf_nameserver:
+  - 8.8.8.8
+  - 9.9.9.9
+resolvconf_search: testbed.osism.xyz
+resolvconf_dnssec: false
+
+##########################
+# hosts
+
+hosts_type: template
+hosts_additional_entries:
+  api-int.testbed.osism.xyz: 192.168.16.9
+  api.testbed.osism.xyz: 192.168.16.254
+
+##########################
+# common
+
+cleanup_packages_extra:
+  - snapd
+
+##########################
+# systohc
+
+systohc: false
+
+##########################
+# serial
+
+osism_serial_default: 100%
+osism_serial:
+  docker: 100%
+
+##########################
+# ceph
+
+ceph_cluster_fsid: 11111111-1111-1111-1111-111111111111
+
+##########################
+# hardening
+
+# NOTE: Disabling hardening in the testbed to significantly reduce
+#       deployment time.
+enable_hardening: false
